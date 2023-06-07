@@ -9,4 +9,6 @@
 ## 완성 작품
 ### 작품 회로도
 ### 작품 사진
+-사진이 들어갈 위치
+![test](https://github.com/skarb0624/Raspberry_timer/assets/131341020/56a34915-a697-477f-9c0c-925dcf2c0dd8)
 ## 동작 시나리오
