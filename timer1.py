@@ -91,7 +91,7 @@ try:
             p.ChangeDutyCycle(90)
             blink()
             endmessage = {
-                "msg" : "Timeout"
+                "msg" : "no time"
                 }
             value2 = json.dumps(endmessage)
             client.publish(MQTT_PUB_TOPIC,value2)
