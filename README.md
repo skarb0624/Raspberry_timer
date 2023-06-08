@@ -15,7 +15,7 @@
 ![회로](https://github.com/skarb0624/Raspberry_timer/assets/131341020/ee02364b-0350-4f91-a088-c55966e570e4)
 ### 작품 사진
 ![IMG_0051](https://github.com/skarb0624/Raspberry_timer/assets/131341020/1fa3b706-a0ca-4d46-9aaf-ccd798f14018)
-## 동작 시나리오
+### 동작 시나리오
 1.MQTT에 알람이 울릴 시간을 설정한다.
 2.알람이 울릴 시간이 되면 부저에서 소리가 나면서 led가 반짝거리게 된다.
 3.버튼을 누르면 알람음이 멈추고 led가 10번 반짝거리다가 꺼진다.
