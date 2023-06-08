@@ -7,7 +7,7 @@ import psutil
 for proc in psutil.process_iter():
     if proc.name() == "libgpiod_pulsein" :
         proc.kill()
-#
+
 scale = [ 261, 294, 329, 349, 392, 440, 493, 523] #
 term = [ 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 0.5, 1 ] #
 com = [ 4, 4, 5, 5, 4, 4, 2, 4, 4, 2, 2, 1]
