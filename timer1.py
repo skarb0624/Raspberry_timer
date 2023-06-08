@@ -51,7 +51,6 @@ def on_message(client,userdata, message) :
     except ValueError:
         print("Invalid input. Please provide a valid integer.")
 
-
 def countdown(timer):
     while timer > 0:
         global intimer
@@ -64,13 +63,6 @@ def countdown(timer):
             print("timeout.")
             intimer = 0
 
-client =mqtt.Client()
-client.on_message = on_message
-client.connect(MQTT_HOST,MQTT_PORT,MQTT_KEEPALIVE_INTERVAL)
-client.subscribe(MQTT_SUB_TOPIC)
-client.loop_start()
-
-
 def message_timer() :
     if stop_message == 0 :
         timermean = {
@@ -81,7 +73,11 @@ def message_timer() :
         print(value)
         time.sleep(5)
 
-
+client =mqtt.Client()
+client.connect(MQTT_HOST,MQTT_PORT,MQTT_KEEPALIVE_INTERVAL)
+client.on_message = on_message
+client.subscribe(MQTT_SUB_TOPIC)
+client.loop_start()
 
 def message_button(channel) :
         global push_button
@@ -107,16 +103,20 @@ try:
     while True :
         message_timer()
         if intimer == 0 :
+            msg1 = {
+                "msg" : "timer has run out"
+                }
+            value4 = json.dumps(msg1)
+            client.publish(MQTT_PUB_TOPIC,value4)
             p.start(100)
             p.ChangeDutyCycle(90)
             blink()
+        if push_button == 0 :
             endmessage = {
-                "msg" : "no time"
+                "msg" : "off by pressing the button"
                 }
             value2 = json.dumps(endmessage)
             client.publish(MQTT_PUB_TOPIC,value2)
-            print(value2)
-        if push_button == 0 :
             break
             for i in range(25):
                 p.ChangeFrequency(scale[com[i]])
