@@ -14,9 +14,10 @@ com = [ 4, 4, 5, 5, 4, 4, 2, 4, 4, 2, 2, 1]
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-
+global stop_message
 global intimer
 global push_button
+stop_message = 0
 push_button = 1
 intimer = 1
 LED = 23
@@ -36,9 +37,11 @@ MQTT_SUB_TOPIC = "mobile/Namgyu/timer"
 
 
 def on_message(client,userdata, message) :
+    global stop_message
     try:
         input_time = int(message.payload.decode("utf-8"))
         print(f"input times = {message.payload.decode('utf-8')}s")
+        stop_message = 1
         countdown(input_time)
     except ValueError:
         print("Invalid input. Please provide a valid integer.")
@@ -59,15 +62,14 @@ client.connect(MQTT_HOST,MQTT_PORT,MQTT_KEEPALIVE_INTERVAL)
 client.subscribe(MQTT_SUB_TOPIC)
 client.loop_start()
 def message_timer() :
-    timermean = {
+    if stop_message == 0 :
+        timermean = {
     "msg " : "Please enter the time of the timer , timer address: moilbe/Namgyu/timer",
-    
-    }
-    value = json.dumps(timermean)
-    client.publish(MQTT_PUB_TOPIC,value)
-    print(value)
-
-    
+        }
+        value = json.dumps(timermean)
+        client.publish(MQTT_PUB_TOPIC,value)
+        print(value)
+        time.sleep(5)
 def message_button(channel) :
         global push_button
         if intimer == 0 :
@@ -82,12 +84,18 @@ def blink() :
         GPIO.output(23,GPIO.LOW)
         time.sleep(0.3)
 try:
-    message_timer()
     while True :
+        message_timer()
         if intimer == 0 :
             p.start(100)
             p.ChangeDutyCycle(90)
             blink()
+            endmessage = {
+                "msg" : "Timeout"
+                }
+            value2 = json.dumps(endmessage)
+            client.publish(MQTT_PUB_TOPIC,value2)
+            print(value2)
         if push_button == 0 :
             break
             for i in range(25):
